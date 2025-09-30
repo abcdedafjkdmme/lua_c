@@ -1,2 +1,5 @@
 build/*
 .vscode/*
+examples/build/*
+tests/build/*
+docs/build/*
