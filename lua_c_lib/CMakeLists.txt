@@ -1,26 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project (lua_c_lib)
 
-
-
-
-## Add Lua library
-# set(LUA_VERSION "lua-5.4.4")
-# include(ExternalProject)
-# ExternalProject_Add(liblua
-#   PREFIX ${CMAKE_BINARY_DIR}/${LUA_VERSION}
-#   URL https://www.lua.org/ftp/${LUA_VERSION}.tar.gz
-#   CONFIGURE_COMMAND ""
-#   BUILD_COMMAND make generic
-#   INSTALL_COMMAND ""
-#   BUILD_IN_SOURCE true
-#   DOWNLOAD_EXTRACT_TIMESTAMP false
-# )
-# # Specify where to find Lua includes and libraries after building
-# ExternalProject_Get_Property(liblua BINARY_DIR)
-# set(LUA_INCLUDE_DIR ${BINARY_DIR}/src)
-# set(LUA_LIBRARIES ${BINARY_DIR}/src/liblua.a)
-
 find_package(Lua)
 
 if(Lua_FOUND AND NOT TARGET Lua::Lua)
