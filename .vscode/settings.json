@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "*.cmake": "cmake",
+    "lauxlib.h": "c"
+  },
+  "Lua.diagnostics.globals": [
+    "C_num",
+    "C_bool",
+    "C_str"
+  ]
+}
