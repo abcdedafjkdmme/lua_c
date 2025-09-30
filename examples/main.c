@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     printf("[LUA_C] Lua_bool is %s \n",lua_var_bool ? "true":"false");
 
    
-    char* lua_var_str = NULL;
+    const char* lua_var_str = NULL;
     errcode = luac_get_string(L,"Lua_str",&lua_var_str);
     assert(errcode == 0);
     printf("[LUA_C] Lua_str is %s \n",lua_var_str);
