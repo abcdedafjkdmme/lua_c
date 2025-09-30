@@ -19,9 +19,14 @@ endif()
 add_library(lua_c_lib INTERFACE)
 # Link your library to the Lua library
 add_dependencies(lua_c_lib liblua) # Ensure Lua is built before your project
-target_include_directories(lua_c_lib INTERFACE ${LUA_INCLUDE_DIR} "include")
+target_include_directories(lua_c_lib INTERFACE ${LUA_INCLUDE_DIR})
 target_link_libraries(lua_c_lib INTERFACE ${LUA_LIBRARIES})
-target_link_libraries(lua_c_lib INTERFACE m)
+# Link math library
+find_library(MATH_LIBRARY m)
+if(MATH_LIBRARY)
+    target_link_libraries(lua_c_lib INTERFACE ${MATH_LIBRARY})
+endif()
+target_include_directories(lua_c_lib INTERFACE "include")
 
 if(UNIX)
   target_compile_options(lua_c_lib INTERFACE -O0 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough -Werror=format-security -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -fstack-clash-protection -fstack-protector-strong -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -fsanitize=address -fsanitize=undefined)
