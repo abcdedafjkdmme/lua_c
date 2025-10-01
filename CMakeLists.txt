@@ -20,23 +20,9 @@ if(MATH_LIBRARY)
 endif()
 
 # Link your library to the Lua library
-set(LUA_VERSION "lua-5.4.4")
-include(ExternalProject)
-ExternalProject_Add(liblua
-  PREFIX ${CMAKE_BINARY_DIR}/${LUA_VERSION}
-  URL https://www.lua.org/ftp/${LUA_VERSION}.tar.gz
-  CONFIGURE_COMMAND ""
-  BUILD_COMMAND make generic
-  INSTALL_COMMAND ""
-  BUILD_IN_SOURCE true
-  DOWNLOAD_EXTRACT_TIMESTAMP false
-)
-# Specify where to find Lua includes and libraries after building
-ExternalProject_Get_Property(liblua BINARY_DIR)
-set(LUA_INCLUDE_DIR ${BINARY_DIR}/src)
-set(LUA_LIBRARIES ${BINARY_DIR}/src/liblua.a)
-target_include_directories(lua_c_lib INTERFACE ${LUA_INCLUDE_DIR})
-target_link_libraries(lua_c_lib INTERFACE ${LUA_LIBRARIES})
+SET(BUILD_SHARED_LIBS OFF CACHE BOOL "Build as shared library")
+add_subdirectory(external/lua)
+target_link_libraries(lua_c_lib INTERFACE lua::lib)
 
 # add example project
 add_subdirectory(examples)
