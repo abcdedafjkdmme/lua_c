@@ -79,9 +79,9 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }}
       
     - name: Install NSIS for windows only
-      if: runner.os == 'windows-latest'
+      if: runner.os == 'Windows'
       run: winget install nsis
-      
+
     - name: Package 
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: cpack
