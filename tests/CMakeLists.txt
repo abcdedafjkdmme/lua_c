@@ -22,3 +22,8 @@ target_link_libraries(lua_c_test PUBLIC lua_c_lib)
 include(GoogleTest)
 gtest_discover_tests(lua_c_test)
 
+
+# copy scripts
+add_custom_target(copy-runtime-files-test ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/scripts ${CMAKE_CURRENT_BINARY_DIR}/scripts
+    DEPENDS lua_c_example)
