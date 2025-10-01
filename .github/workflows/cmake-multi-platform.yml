@@ -78,6 +78,10 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
       
+    - name: Install NSIS for windows only
+      if: runner.os == 'windows-latest'
+      run: winget install nsis
+      
     - name: Package 
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: cpack
