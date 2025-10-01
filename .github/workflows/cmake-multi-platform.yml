@@ -80,7 +80,7 @@ jobs:
       
     - name: Install NSIS for windows only
       if: runner.os == 'Windows'
-      run: winget install nsis
+      run: winget install nsis --accept-source-agreements --accept-package-agreements
 
     - name: Package 
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
