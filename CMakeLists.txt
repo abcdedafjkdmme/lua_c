@@ -8,10 +8,19 @@ add_library(lua_c_lib INTERFACE)
 # library specific
 target_include_directories(lua_c_lib INTERFACE ${CMAKE_SOURCE_DIR}/include)
 
-if(UNIX)
-  target_compile_options(lua_c_lib INTERFACE -O0 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough -Werror=format-security -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -fstack-clash-protection -fstack-protector-strong -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -fsanitize=undefined)
-  target_link_options(lua_c_lib INTERFACE -fsanitize=undefined)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(LUA_C_LIB_COMPILER_FLAGS -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough -Werror=format-security -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -fstack-clash-protection -fstack-protector-strong -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -fsanitize=undefined)
+    set(LUA_C_LIB_LINKER_FLAGS -fsanitize=undefined)
+
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+        list(APPEND LUA_C_LIB_COMPILER_FLAGS -fsanitize=address)
+        list(APPEND LUA_C_LIB_LINKER_FLAGS -fsanitize=address)
+    endif()
 endif()
+
+target_compile_options(lua_c_lib INTERFACE ${LUA_C_LIB_COMPILER_FLAGS})
+target_link_options(lua_c_lib INTERFACE ${LUA_C_LIB_LINKER_FLAGS})
 
 # Link math library
 find_library(MATH_LIBRARY m)
@@ -25,14 +34,24 @@ add_subdirectory(external/lua)
 target_link_libraries(lua_c_lib INTERFACE lua::lib)
 
 # add example project
-add_subdirectory(examples)
+option(BUILD_EXAMPLES "Build examples" ON)
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
 
 # add tests 
-enable_testing()
-add_subdirectory(tests)
+option(BUILD_TESTS "Build tests" ON)
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
 
 # add docs
-add_subdirectory(docs)
+option(BUILD_DOCS "Build docs" ON)
+if(BUILD_DOCS)
+    add_subdirectory(docs)
+endif()
 
 # add packaging
 include(CPack)

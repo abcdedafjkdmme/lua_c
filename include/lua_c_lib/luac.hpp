@@ -1,12 +1,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <assert.h>
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
 #include <string.h>
 #include <stdbool.h>
-
+#include "lua.hpp"
 
 #define LUAC_COUNTOF(arr)  (sizeof(arr) / sizeof((arr)[0]))
 

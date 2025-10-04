@@ -1,9 +1,5 @@
 #include <gtest/gtest.h>
-
-extern "C"
-{
-#include "lua_c_lib/luac.h"
-}
+#include "lua_c_lib/luac.hpp"
 
 TEST(LuaC, GetVariables)
 {
@@ -20,6 +16,7 @@ TEST(LuaC, GetVariables)
   errcode = luac_get_number(L, "Lua_num", &lua_var_num);
   EXPECT_EQ(errcode, 0);
   EXPECT_EQ(lua_var_num, 321);
+
 
   int lua_var_bool = -1;
   errcode = luac_get_boolean(L, "Lua_bool", &lua_var_bool);

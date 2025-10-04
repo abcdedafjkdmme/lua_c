@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(lua_c_example)
 
-add_executable(lua_c_example main.c)
+add_executable(lua_c_example main.cpp)
 
 target_link_libraries(lua_c_example PUBLIC lua_c_lib)
 
